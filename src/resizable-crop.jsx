@@ -11,9 +11,14 @@ class ResizableCrop extends React.Component {
       width: React.PropTypes.number.isRequired,
       height: React.PropTypes.number.isRequired
     }).isRequired,
+    speed: React.PropTypes.number,
     onResize: React.PropTypes.func,
     onResizeStart: React.PropTypes.func,
     onResizeEnd: React.PropTypes.func
+  }
+
+  static defaultProps = {
+    speed: 1
   }
 
   constructor(...args) {
@@ -65,8 +70,8 @@ class ResizableCrop extends React.Component {
 
     const position = this._getPositionOfEvent(e)
     const delta = {
-      x: position.x - this._startPosition.x,
-      y: position.y - this._startPosition.y
+      x: Math.round((position.x - this._startPosition.x) * this.props.speed),
+      y: Math.round((position.y - this._startPosition.y) * this.props.speed)
     }
 
     let nextCrop = this._resizeCrop(this._originalCrop, this._resizeOrd, delta)
