@@ -24,6 +24,17 @@ class ResizableCrop extends React.Component {
     this._handleMouseUp = this._handleMouseUp.bind(this)
   }
 
+  componentWillUnmount() {
+    if (this._resizing) {
+      this._resizing = false
+
+      const element = this._lastMouseEvent.target
+      const win = element.ownerDocument.defaultView
+      win.removeEventListener('mousemove', this._handleMouseMove, false)
+      win.removeEventListener('mouseup', this._handleMouseUp, false)
+    }
+  }
+
   _handleMouseDown(e) {
     const ord = e.target.dataset['ord']
     if (!ord) {
