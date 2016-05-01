@@ -1,9 +1,14 @@
 {
   "name": "react-resizable-crop",
   "version": "0.0.0",
+  "main": "lib/resizable-crop.js",
   "scripts": {
     "build": "babel src/ -d lib/",
     "prepublish": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "0.14.x",
+    "react-dom": "0.14.x"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
