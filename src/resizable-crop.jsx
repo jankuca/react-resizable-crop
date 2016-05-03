@@ -54,8 +54,8 @@ class ResizableCrop extends React.Component {
 
       const element = this._lastMouseEvent.target
       const win = element.ownerDocument.defaultView
-      win.removeEventListener('mousemove', this._handleMouseMove, false)
-      win.removeEventListener('mouseup', this._handleMouseUp, false)
+      win.removeEventListener('mousemove', this._handleMouseMove, true)
+      win.removeEventListener('mouseup', this._handleMouseUp, true)
     }
   }
 
@@ -66,8 +66,8 @@ class ResizableCrop extends React.Component {
     e.stopPropagation()
 
     const win = e.target.ownerDocument.defaultView
-    win.addEventListener('mousemove', this._handleMouseMove, false)
-    win.addEventListener('mouseup', this._handleMouseUp, false)
+    win.addEventListener('mousemove', this._handleMouseMove, true)
+    win.addEventListener('mouseup', this._handleMouseUp, true)
 
     this._resizing = true
     this._resizeOrd = ord
@@ -109,14 +109,14 @@ class ResizableCrop extends React.Component {
     e.preventDefault()
     e.stopPropagation()
 
+    const win = e.target.ownerDocument.defaultView
+    win.removeEventListener('mousemove', this._handleMouseMove, true)
+    win.removeEventListener('mouseup', this._handleMouseUp, true)
+
     this._resizing = false
     this._resizeOrd = null
     this._startPosition = null
     this._lastMouseEvent = null
-
-    const win = e.target.ownerDocument.defaultView
-    win.removeEventListener('mousemove', this._handleMouseMove, false)
-    win.removeEventListener('mouseup', this._handleMouseUp, false)
 
     if (this.props.onResizeEnd) {
       this.props.onResizeEnd()
