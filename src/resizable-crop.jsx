@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 import assign from 'object-assign'
 
@@ -29,7 +30,25 @@ class ResizableCrop extends React.Component {
     this._handleMouseUp = this._handleMouseUp.bind(this)
   }
 
+  componentDidMount() {
+    const element = ReactDOM.findDOMNode(this)
+    element.addEventListener('mousedown', this._handleMouseDown, false)
+  }
+
+  componentWillUpdate() {
+    const element = ReactDOM.findDOMNode(this)
+    element.removeEventListener('mousedown', this._handleMouseDown, false)
+  }
+
+  componentDidUpdate() {
+    const element = ReactDOM.findDOMNode(this)
+    element.addEventListener('mousedown', this._handleMouseDown, false)
+  }
+
   componentWillUnmount() {
+    const element = ReactDOM.findDOMNode(this)
+    element.removeEventListener('mousedown', this._handleMouseDown, false)
+
     if (this._resizing) {
       this._resizing = false
 
@@ -162,7 +181,6 @@ class ResizableCrop extends React.Component {
     return (
       <div
         className={this.props.className}
-        onMouseDown={this._handleMouseDown}
       >
         <div className={this.props.className + '__drag-bar ord-n'} data-ord='n'></div>
         <div className={this.props.className + '__drag-bar ord-e'} data-ord='e'></div>
