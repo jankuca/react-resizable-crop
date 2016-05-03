@@ -42,9 +42,6 @@ class ResizableCrop extends React.Component {
 
   _handleMouseDown(e) {
     const ord = e.target.dataset['ord']
-    if (!ord) {
-      return
-    }
 
     e.preventDefault()
     e.stopPropagation()
@@ -74,7 +71,12 @@ class ResizableCrop extends React.Component {
       y: Math.round((position.y - this._startPosition.y) * this.props.speed)
     }
 
-    let nextCrop = this._resizeCrop(this._originalCrop, this._resizeOrd, delta)
+    let nextCrop = this._originalCrop
+    if (this._resizeOrd) {
+      nextCrop = this._resizeCrop(nextCrop, this._resizeOrd, delta)
+    } else {
+      nextCrop = this._moveCrop(nextCrop, delta)
+    }
     nextCrop = this._normalizeCrop(nextCrop)
 
     this._lastMouseEvent = e
@@ -126,6 +128,15 @@ class ResizableCrop extends React.Component {
     if (ord.indexOf('s') > -1) {
       nextCrop.height += delta.y
     }
+
+    return nextCrop
+  }
+
+  _moveCrop(prevCrop, delta) {
+    const nextCrop = assign({}, prevCrop)
+
+    nextCrop.x += delta.x
+    nextCrop.y += delta.y
 
     return nextCrop
   }
