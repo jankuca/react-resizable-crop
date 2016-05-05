@@ -60,7 +60,7 @@ class ResizableCrop extends React.Component {
   }
 
   _handleMouseDown(e) {
-    const ord = e.target.dataset['ord']
+    const ord = e.target.getAttribute('data-ord')
 
     e.preventDefault()
     e.stopPropagation()
