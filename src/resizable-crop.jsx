@@ -59,6 +59,15 @@ class ResizableCrop extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this._resizing) {
+      if (nextProps.speed !== this.props.speed) {
+        this._originalCrop = this.props.crop
+        this._startPosition = this._getPositionOfEvent(this._lastMouseEvent)
+      }
+    }
+  }
+
   _handleMouseDown(e) {
     const ord = e.target.getAttribute('data-ord')
 
