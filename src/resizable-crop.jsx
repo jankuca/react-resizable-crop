@@ -119,6 +119,7 @@ class ResizableCrop extends React.Component {
 
     this._resizing = false
     this._resizeOrd = null
+    this._originalCrop = null
     this._startPosition = null
     this._lastMouseEvent = null
 
