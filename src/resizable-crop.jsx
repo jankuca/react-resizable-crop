@@ -99,13 +99,8 @@ class ResizableCrop extends React.Component {
       y: Math.round((position.y - this._startPosition.y) * this.props.speed)
     }
 
-    let nextCrop = this._originalCrop
-    if (this._resizeOrd) {
-      nextCrop = this._resizeCrop(nextCrop, this._resizeOrd, delta)
-    } else {
-      nextCrop = this._moveCrop(nextCrop, delta)
-    }
-    nextCrop = this._normalizeCrop(nextCrop)
+    const prevCrop = this._originalCrop
+    const nextCrop = this._updateCrop(prevCrop, this._resizeOrd, delta)
 
     this._lastMouseEvent = e
 
@@ -137,6 +132,20 @@ class ResizableCrop extends React.Component {
       x: e.clientX,
       y: e.clientY
     }
+  }
+
+  _updateCrop(prevCrop, ord, delta) {
+    let nextCrop = prevCrop
+
+    if (ord) {
+      nextCrop = this._resizeCrop(nextCrop, ord, delta)
+    } else {
+      nextCrop = this._moveCrop(nextCrop, delta)
+    }
+
+    nextCrop = this._normalizeCrop(nextCrop)
+
+    return nextCrop
   }
 
   _resizeCrop(prevCrop, ord, delta) {
