@@ -13,13 +13,21 @@ class ResizableCrop extends React.Component {
       height: React.PropTypes.number.isRequired
     }).isRequired,
     speed: React.PropTypes.number,
+    offset: React.PropTypes.shape({
+      x: React.PropTypes.number.isRequired,
+      y: React.PropTypes.number.isRequired
+    }),
     onResize: React.PropTypes.func,
     onResizeStart: React.PropTypes.func,
     onResizeEnd: React.PropTypes.func
   }
 
   static defaultProps = {
-    speed: 1
+    speed: 1,
+    offset: {
+      x: 0,
+      y: 0
+    }
   }
 
   constructor(...args) {
@@ -62,8 +70,28 @@ class ResizableCrop extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this._resizing) {
       if (nextProps.speed !== this.props.speed) {
-        this._originalCrop = this.props.crop
+        this._originalCrop = this._lastCrop
         this._startPosition = this._getPositionOfEvent(this._lastMouseEvent)
+
+      } else if (nextProps.offset.x !== this.props.offset.x ||
+          nextProps.offset.y !== this.props.offset.y) {
+        const delta = {
+          x: (this.props.offset.x - nextProps.offset.x) * this.props.speed,
+          y: (this.props.offset.y - nextProps.offset.y) * this.props.speed
+        }
+
+        // NOTE: The `lastCrop` property is used as we need to prevent race
+        //   conditions caused by the props being updated asynchronously.
+        const prevCrop = this._lastCrop
+        const nextCrop = this._updateCrop(prevCrop, this._resizeOrd, delta)
+
+        this._originalCrop = nextCrop
+        this._lastCrop = nextCrop
+        this._startPosition = this._getPositionOfEvent(this._lastMouseEvent)
+
+        if (this.props.onResize) {
+          this.props.onResize(nextCrop)
+        }
       }
     }
   }
@@ -81,6 +109,7 @@ class ResizableCrop extends React.Component {
     this._resizing = true
     this._resizeOrd = ord
     this._originalCrop = this.props.crop
+    this._lastCrop = this.props.crop
     this._startPosition = this._getPositionOfEvent(e)
     this._lastMouseEvent = e
 
@@ -102,6 +131,7 @@ class ResizableCrop extends React.Component {
     const prevCrop = this._originalCrop
     const nextCrop = this._updateCrop(prevCrop, this._resizeOrd, delta)
 
+    this._lastCrop = nextCrop
     this._lastMouseEvent = e
 
     if (this.props.onResize) {
@@ -120,6 +150,7 @@ class ResizableCrop extends React.Component {
     this._resizing = false
     this._resizeOrd = null
     this._originalCrop = null
+    this._lastCrop = null
     this._startPosition = null
     this._lastMouseEvent = null
 
