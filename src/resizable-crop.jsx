@@ -95,8 +95,8 @@ class ResizableCrop extends React.Component {
 
     const position = this._getPositionOfEvent(e)
     const delta = {
-      x: Math.round((position.x - this._startPosition.x) * this.props.speed),
-      y: Math.round((position.y - this._startPosition.y) * this.props.speed)
+      x: (position.x - this._startPosition.x) * this.props.speed,
+      y: (position.y - this._startPosition.y) * this.props.speed
     }
 
     const prevCrop = this._originalCrop
