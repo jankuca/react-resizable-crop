@@ -97,7 +97,7 @@ class ResizableCrop extends React.Component {
   }
 
   _handleMouseDown(e) {
-    const ord = e.target.getAttribute('data-ord')
+    const ord = e.target.getAttribute('data-ord') || null
 
     e.preventDefault()
     e.stopPropagation()
@@ -114,7 +114,7 @@ class ResizableCrop extends React.Component {
     this._lastMouseEvent = e
 
     if (this.props.onResizeStart) {
-      this.props.onResizeStart()
+      this.props.onResizeStart(this._resizeOrd)
     }
   }
 
