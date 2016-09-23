@@ -97,6 +97,11 @@ class ResizableCrop extends React.Component {
   }
 
   _handleMouseDown(e) {
+    // NOTE: The mousdown event originated in right/contextmenu click. Ignore.
+    if (e.which === 3) {
+      return
+    }
+
     const ord = e.target.getAttribute('data-ord') || null
 
     e.preventDefault()
