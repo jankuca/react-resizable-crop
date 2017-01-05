@@ -10,8 +10,8 @@
     "object-assign": "*"
   },
   "peerDependencies": {
-    "react": "0.14.x",
-    "react-dom": "0.14.x"
+    "react": ">=0.14 <16",
+    "react-dom": ">=0.14 <16"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
