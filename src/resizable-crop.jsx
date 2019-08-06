@@ -36,6 +36,8 @@ class ResizableCrop extends React.Component {
     this._handleMouseDown = this._handleMouseDown.bind(this)
     this._handleMouseMove = this._handleMouseMove.bind(this)
     this._handleMouseUp = this._handleMouseUp.bind(this)
+
+    this._asyncOnResizeHandle = 0
   }
 
   componentDidMount() {
@@ -54,6 +56,8 @@ class ResizableCrop extends React.Component {
   }
 
   componentWillUnmount() {
+    this._cancelAsyncOnResize()
+
     const element = ReactDOM.findDOMNode(this)
     element.removeEventListener('mousedown', this._handleMouseDown, false)
 
@@ -89,10 +93,24 @@ class ResizableCrop extends React.Component {
         this._lastCrop = nextCrop
         this._startPosition = this._getPositionOfEvent(this._lastMouseEvent)
 
-        if (nextProps.onResize) {
-          nextProps.onResize(nextCrop)
+        const onResize = nextProps.onResize
+        if (onResize) {
+          this._scheduleAsyncOnResize(onResize, nextCrop)
         }
       }
+    }
+  }
+
+  _scheduleAsyncOnResize(onResize, nextCrop) {
+    this._asyncOnResizeHandle = setTimeout(() => {
+      this._asyncOnResizeHandle = 0
+      onResize(nextCrop)
+    }, 0)
+  }
+
+  _cancelAsyncOnResize() {
+    if (this._asyncOnResizeHandle) {
+      clearTimeout(this._asyncOnResizeHandle)
     }
   }
 
