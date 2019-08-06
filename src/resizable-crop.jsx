@@ -89,8 +89,8 @@ class ResizableCrop extends React.Component {
         this._lastCrop = nextCrop
         this._startPosition = this._getPositionOfEvent(this._lastMouseEvent)
 
-        if (this.props.onResize) {
-          this.props.onResize(nextCrop)
+        if (nextProps.onResize) {
+          nextProps.onResize(nextCrop)
         }
       }
     }
