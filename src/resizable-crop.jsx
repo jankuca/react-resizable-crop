@@ -2,24 +2,25 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import assign from 'object-assign'
+import PropTypes from 'prop-types'
 
 
 class ResizableCrop extends React.Component {
   static propTypes = {
-    crop: React.PropTypes.shape({
-      x: React.PropTypes.number.isRequired,
-      y: React.PropTypes.number.isRequired,
-      width: React.PropTypes.number.isRequired,
-      height: React.PropTypes.number.isRequired
+    crop: PropTypes.shape({
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired
     }).isRequired,
-    speed: React.PropTypes.number,
-    offset: React.PropTypes.shape({
-      x: React.PropTypes.number.isRequired,
-      y: React.PropTypes.number.isRequired
+    speed: PropTypes.number,
+    offset: PropTypes.shape({
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired
     }),
-    onResize: React.PropTypes.func,
-    onResizeStart: React.PropTypes.func,
-    onResizeEnd: React.PropTypes.func
+    onResize: PropTypes.func,
+    onResizeStart: PropTypes.func,
+    onResizeEnd: PropTypes.func
   }
 
   static defaultProps = {
