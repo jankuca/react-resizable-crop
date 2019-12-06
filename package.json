@@ -1,6 +1,6 @@
 {
   "name": "react-resizable-crop",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "lib/resizable-crop.js",
   "scripts": {
     "build": "babel src/ -d lib/",
