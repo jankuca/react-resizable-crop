@@ -7,11 +7,12 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "object-assign": "*"
+    "object-assign": "*",
+    "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "react": ">=0.14 <16",
-    "react-dom": ">=0.14 <16"
+    "react": ">=0.14 <=16",
+    "react-dom": ">=0.14 <=16"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
